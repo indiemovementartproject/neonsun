@@ -173,8 +173,8 @@ section{position:relative}
   background:repeating-conic-gradient(from 0deg,
     rgba(255,120,0,.16) 0deg 3deg,
     transparent 3deg 11deg);
-  -webkit-mask-image:radial-gradient(circle,#000 8%,rgba(0,0,0,.55) 30%,transparent 62%);
-  mask-image:radial-gradient(circle,#000 8%,rgba(0,0,0,.55) 30%,transparent 62%);
+  -webkit-mask-image:radial-gradient(circle,transparent 24%,rgba(0,0,0,.5) 36%,rgba(0,0,0,.75) 46%,transparent 66%);
+  mask-image:radial-gradient(circle,transparent 24%,rgba(0,0,0,.5) 36%,rgba(0,0,0,.75) 46%,transparent 66%);
   animation:spin 90s linear infinite;
   opacity:.75;
 }
@@ -186,10 +186,11 @@ section{position:relative}
   transform:translate(-50%,-50%);
   z-index:-1;
   background:radial-gradient(circle,
-    rgba(255,150,30,.30) 0%,
-    rgba(255,70,0,.16) 34%,
-    rgba(120,20,0,.06) 55%,
-    transparent 72%);
+    transparent 26%,
+    rgba(255,120,20,.22) 42%,
+    rgba(255,70,0,.13) 56%,
+    rgba(120,20,0,.05) 68%,
+    transparent 80%);
   animation:breathe 7s ease-in-out infinite;
   pointer-events:none;
 }
@@ -201,7 +202,9 @@ section{position:relative}
 
 .mark{
   width:min(86vw,440px);
-  filter:drop-shadow(0 0 48px rgba(255,90,0,.38)) drop-shadow(0 0 14px rgba(255,180,60,.22));
+  position:relative;
+  z-index:1;
+  filter:drop-shadow(0 0 52px rgba(255,90,0,.34)) drop-shadow(0 0 16px rgba(255,180,60,.2));
   animation:rise 1.2s cubic-bezier(.2,.8,.2,1) both;
 }
 @keyframes rise{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:none}}
