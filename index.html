@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Sun Productions — Honest stories, fully felt</title>
+<meta name="description" content="Neon Sun Productions is an independent production house founded by Rageswari Mahanta, telling honest stories that follow the full arc of human emotion.">
+<link rel="icon" href="neon-sun-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=Outfit:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   NEON SUN PRODUCTIONS
+   Tokens
+   ============================================================ */
+:root{
+  --void:#000000;
+  --smoke:#0d0805;
+  --ember-deep:#c81e00;
+  --ember:#ff5a00;
+  --flare:#ff9a1f;
+  --gold:#ffc24d;
+  --glow:#ffe7b0;
+
+  --paper:#f2e6da;
+  --ash:#9c8577;
+
+  --display:'Syne','Trebuchet MS',sans-serif;
+  --body:'Outfit','Helvetica Neue',Arial,sans-serif;
+  --slate:'Space Mono','Courier New',monospace;
+
+  --gut:clamp(20px,5vw,40px);
+  --sec:clamp(72px,12vw,130px);
+  --ring:220px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth;scroll-padding-top:64px;-webkit-text-size-adjust:100%}
+
+body{
+  background:var(--void);
+  color:var(--paper);
+  font-family:var(--body);
+  font-weight:300;
+  line-height:1.7;
+  text-align:center;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+img{max-width:100%;display:block}
+
+::selection{background:var(--ember);color:#fff}
+
+:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:4px;
+  border-radius:4px;
+}
+
+/* ---------- Shared type ---------- */
+.eyebrow{
+  font-family:var(--slate);
+  font-size:.68rem;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--flare);
+  opacity:.85;
+  margin-bottom:18px;
+}
+.eyebrow span{color:var(--ash);opacity:.6}
+
+.h2{
+  font-family:var(--display);
+  font-weight:800;
+  font-size:clamp(2rem,7.5vw,3.6rem);
+  line-height:1.02;
+  letter-spacing:-.02em;
+  background:linear-gradient(180deg,var(--glow) 0%,var(--gold) 42%,var(--ember) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 0 26px rgba(255,110,0,.32));
+}
+
+.lede{
+  font-size:clamp(1rem,2.6vw,1.16rem);
+  color:var(--paper);
+  opacity:.9;
+  max-width:60ch;
+  margin:22px auto 0;
+}
+.sub{
+  font-size:clamp(.94rem,2.4vw,1.02rem);
+  color:var(--ash);
+  max-width:56ch;
+  margin:16px auto 0;
+}
+
+.wrap{
+  width:100%;
+  max-width:1080px;
+  margin:0 auto;
+  padding-left:var(--gut);
+  padding-right:var(--gut);
+}
+
+section{position:relative}
+
+/* ============================================================
+   Nav
+   ============================================================ */
+.nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:60;
+  display:flex;
+  justify-content:center;
+  gap:clamp(14px,4vw,32px);
+  padding:14px var(--gut);
+  font-family:var(--slate);
+  font-size:.64rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,154,31,.13);
+  transform:translateY(-102%);
+  transition:transform .45s cubic-bezier(.2,.7,.3,1);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav::-webkit-scrollbar{display:none}
+.nav.show{transform:translateY(0)}
+.nav a{
+  color:var(--ash);
+  text-decoration:none;
+  white-space:nowrap;
+  padding:4px 0;
+  border-bottom:1px solid transparent;
+  transition:color .25s,border-color .25s,text-shadow .25s;
+}
+.nav a:hover,.nav a.active{
+  color:var(--gold);
+  border-color:var(--ember);
+  text-shadow:0 0 14px rgba(255,154,31,.7);
+}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:96px var(--gut) 72px;
+  isolation:isolate;
+}
+
+/* corona: slow sweeping rays behind the mark */
+.corona{
+  position:absolute;
+  top:38%;left:50%;
+  width:min(150vw,1200px);
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  z-index:-2;
+  background:repeating-conic-gradient(from 0deg,
+    rgba(255,120,0,.16) 0deg 3deg,
+    transparent 3deg 11deg);
+  -webkit-mask-image:radial-gradient(circle,transparent 24%,rgba(0,0,0,.5) 36%,rgba(0,0,0,.75) 46%,transparent 66%);
+  mask-image:radial-gradient(circle,transparent 24%,rgba(0,0,0,.5) 36%,rgba(0,0,0,.75) 46%,transparent 66%);
+  animation:spin 90s linear infinite;
+  opacity:.75;
+}
+.bloom{
+  position:absolute;
+  top:36%;left:50%;
+  width:min(120vw,780px);
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  z-index:-1;
+  background:radial-gradient(circle,
+    transparent 26%,
+    rgba(255,120,20,.22) 42%,
+    rgba(255,70,0,.13) 56%,
+    rgba(120,20,0,.05) 68%,
+    transparent 80%);
+  animation:breathe 7s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes breathe{
+  0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.85}
+  50%{transform:translate(-50%,-50%) scale(1.09);opacity:1}
+}
+
+.mark{
+  width:min(86vw,440px);
+  position:relative;
+  z-index:1;
+  filter:drop-shadow(0 0 52px rgba(255,90,0,.34)) drop-shadow(0 0 16px rgba(255,180,60,.2));
+  animation:rise 1.2s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:none}}
+
+.hero-eyebrow{
+  font-family:var(--slate);
+  font-size:.6rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--ash);
+  margin-top:6px;
+  animation:fade 1s .35s both;
+}
+.hero-eyebrow b{color:var(--flare);font-weight:400}
+
+.tagline{
+  font-family:var(--display);
+  font-weight:600;
+  font-size:clamp(1.15rem,4.4vw,1.9rem);
+  line-height:1.28;
+  letter-spacing:-.01em;
+  max-width:18ch;
+  margin:20px auto 0;
+  color:var(--paper);
+  animation:fade 1s .5s both;
+}
+.tagline em{
+  font-style:normal;
+  color:var(--gold);
+  text-shadow:0 0 24px rgba(255,154,31,.55);
+}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:14px;
+  margin-top:34px;
+  animation:fade 1s .68s both;
+}
+
+/* ---------- Buttons ---------- */
+.btn{
+  font-family:var(--slate);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--gold);
+  background:transparent;
+  border:1px solid rgba(255,154,31,.5);
+  border-radius:999px;
+  padding:15px 34px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:color .3s,border-color .3s,box-shadow .3s,transform .3s;
+  box-shadow:0 0 0 rgba(255,90,0,0), inset 0 0 20px rgba(255,90,0,.06);
+}
+.btn::after{
+  content:"";
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 130%,rgba(255,120,0,.55),transparent 68%);
+  opacity:0;transition:opacity .35s;
+}
+.btn:hover,.btn:focus-visible{
+  color:#fff;
+  border-color:var(--flare);
+  box-shadow:0 0 26px rgba(255,90,0,.42), inset 0 0 26px rgba(255,90,0,.16);
+  transform:translateY(-2px);
+}
+.btn:hover::after{opacity:1}
+.btn span{position:relative;z-index:1}
+
+.btn-solid{
+  color:#150600;
+  background:linear-gradient(140deg,var(--gold),var(--ember) 70%,var(--ember-deep));
+  border-color:transparent;
+  box-shadow:0 0 30px rgba(255,90,0,.4);
+}
+.btn-solid:hover,.btn-solid:focus-visible{color:#150600;box-shadow:0 0 44px rgba(255,120,0,.65)}
+.btn-solid::after{display:none}
+
+.btn[aria-disabled="true"]{
+  color:var(--ash);
+  border-color:rgba(156,133,119,.3);
+  box-shadow:none;
+  cursor:default;
+}
+.btn[aria-disabled="true"]:hover{transform:none;color:var(--ash);border-color:rgba(156,133,119,.3);box-shadow:none}
+.btn[aria-disabled="true"]::after{display:none}
+
+/* ---------- Scroll cue ---------- */
+.cue{
+  margin-top:46px;
+  font-family:var(--slate);
+  font-size:.55rem;
+  letter-spacing:.3em;
+  color:var(--ash);
+  text-transform:uppercase;
+  animation:fade 1s .9s both;
+}
+.cue i{
+  display:block;
+  width:1px;height:42px;
+  margin:12px auto 0;
+  background:linear-gradient(180deg,var(--flare),transparent);
+  animation:drop 2.4s ease-in-out infinite;
+}
+@keyframes drop{0%,100%{opacity:.2;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ============================================================
+   Filmstrip divider — the recurring structural device
+   ============================================================ */
+.strip{
+  height:34px;
+  border-top:1px solid rgba(255,154,31,.22);
+  border-bottom:1px solid rgba(255,154,31,.22);
+  background-image:
+    repeating-linear-gradient(90deg,rgba(255,154,31,.55) 0 9px,transparent 9px 30px),
+    repeating-linear-gradient(90deg,rgba(255,154,31,.55) 0 9px,transparent 9px 30px);
+  background-size:30px 7px,30px 7px;
+  background-position:0 6px,0 21px;
+  background-repeat:repeat-x,repeat-x;
+  box-shadow:0 0 30px rgba(255,90,0,.12);
+  animation:roll 6s linear infinite;
+  opacity:.7;
+}
+@keyframes roll{to{background-position:30px 6px,30px 21px}}
+
+/* ============================================================
+   Sections
+   ============================================================ */
+.pad{padding:var(--sec) 0}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- About ---------- */
+.about-body p+p{margin-top:18px}
+.signoff{
+  margin-top:34px;
+  font-family:var(--slate);
+  font-size:.66rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--flare);
+}
+.signoff small{display:block;color:var(--ash);letter-spacing:.18em;margin-top:6px;font-size:.6rem}
+
+.pillars{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  margin-top:36px;
+}
+.pillars li{
+  list-style:none;
+  font-family:var(--slate);
+  font-size:.62rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--gold);
+  border:1px solid rgba(255,154,31,.28);
+  border-radius:999px;
+  padding:9px 18px;
+  background:rgba(255,90,0,.05);
+}
+
+/* ---------- Generic card ---------- */
+.card{
+  position:relative;
+  border:1px solid rgba(255,154,31,.24);
+  border-radius:18px;
+  background:linear-gradient(170deg,rgba(255,120,0,.10),rgba(10,5,2,.85));
+  box-shadow:inset 0 0 40px rgba(255,90,0,.06);
+  overflow:hidden;
+}
+.card::before{
+  content:"";
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(255,154,31,.18),transparent 60%);
+  pointer-events:none;
+}
+
+/* ---------- Projects carousel ---------- */
+.rail{
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  padding:8px calc(50% - min(320px,42vw)) 20px;
+  scrollbar-width:none;
+}
+.rail::-webkit-scrollbar{display:none}
+
+.slide{
+  flex:0 0 min(640px,84vw);
+  scroll-snap-align:center;
+  aspect-ratio:16/10;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  transition:box-shadow .4s,border-color .4s;
+}
+.slide:hover{border-color:rgba(255,154,31,.5);box-shadow:0 0 40px rgba(255,90,0,.18),inset 0 0 40px rgba(255,90,0,.08)}
+.slide .no{
+  font-family:var(--slate);
+  font-size:.6rem;letter-spacing:.3em;color:var(--ash);text-transform:uppercase;
+}
+.slide h3{
+  font-family:var(--display);
+  font-weight:800;
+  font-size:clamp(1.4rem,5vw,2.2rem);
+  letter-spacing:-.01em;
+  color:var(--glow);
+  text-shadow:0 0 30px rgba(255,120,0,.45);
+}
+.slide p{font-size:.9rem;color:var(--ash);max-width:32ch;padding:0 20px}
+
+.rail-ctrl{
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  margin-top:6px;
+}
+.arrow{
+  width:44px;height:44px;
+  border-radius:50%;
+  border:1px solid rgba(255,154,31,.35);
+  background:transparent;
+  color:var(--gold);
+  font-size:1rem;
+  cursor:pointer;
+  display:grid;place-items:center;
+  transition:box-shadow .3s,border-color .3s,transform .3s;
+}
+.arrow:hover{border-color:var(--flare);box-shadow:0 0 22px rgba(255,90,0,.4);transform:scale(1.06)}
+.dots{display:flex;gap:9px}
+.dot{
+  width:7px;height:7px;border-radius:50%;
+  border:0;padding:0;cursor:pointer;
+  background:rgba(255,154,31,.28);
+  transition:background .3s,box-shadow .3s,width .3s;
+}
+.dot.on{background:var(--flare);width:22px;border-radius:999px;box-shadow:0 0 14px rgba(255,120,0,.8)}
+
+/* ---------- Contact ---------- */
+.contact-actions{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:32px;
+}
+.note{
+  font-family:var(--slate);
+  font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ash);margin-top:20px;
+}
+
+/* ---------- Portfolio 3D reel ---------- */
+.stage{
+  position:relative;
+  height:340px;
+  perspective:1100px;
+  margin-top:44px;
+}
+.reel{
+  position:absolute;
+  inset:0;
+  margin:auto;
+  width:min(260px,64vw);
+  height:300px;
+  transform-style:preserve-3d;
+  transition:transform 1s cubic-bezier(.25,.8,.25,1);
+}
+.face{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  border-radius:20px;
+  border:1px solid rgba(255,154,31,.3);
+  background:linear-gradient(165deg,rgba(255,110,0,.14),rgba(8,4,2,.92));
+  cursor:pointer;
+  color:inherit;
+  font:inherit;
+  text-align:center;
+  padding:24px;
+  transition:border-color .5s,box-shadow .5s,opacity .5s;
+  opacity:.42;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+}
+.face .ico{
+  font-size:1.5rem;
+  filter:drop-shadow(0 0 12px rgba(255,150,0,.7));
+}
+.face .ttl{
+  font-family:var(--display);
+  font-weight:800;
+  font-size:1.18rem;
+  letter-spacing:-.01em;
+  color:var(--glow);
+  line-height:1.2;
+}
+.face .tag{
+  font-family:var(--slate);
+  font-size:.55rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ash);
+}
+.face.front{
+  opacity:1;
+  border-color:rgba(255,180,60,.75);
+  box-shadow:0 0 46px rgba(255,90,0,.34),inset 0 0 40px rgba(255,90,0,.1);
+}
+.face.front .ttl{text-shadow:0 0 26px rgba(255,140,0,.6)}
+
+.reel-ctrl{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin-top:26px;flex-wrap:wrap;
+}
+.toggle{
+  font-family:var(--slate);
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ash);
+  background:transparent;
+  border:1px solid rgba(255,154,31,.28);
+  border-radius:999px;
+  padding:10px 20px;
+  cursor:pointer;
+  transition:color .3s,border-color .3s,box-shadow .3s;
+}
+.toggle:hover{color:var(--gold);border-color:var(--flare);box-shadow:0 0 20px rgba(255,90,0,.3)}
+.toggle .led{
+  display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:var(--ember);margin-right:9px;vertical-align:middle;
+  box-shadow:0 0 10px var(--ember);
+  animation:blink 2s ease-in-out infinite;
+}
+.toggle.paused .led{background:var(--ash);box-shadow:none;animation:none}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ---------- Footer ---------- */
+.foot{
+  padding:56px var(--gut) 44px;
+  border-top:1px solid rgba(255,154,31,.14);
+}
+.foot img{width:74px;margin:0 auto 18px;filter:drop-shadow(0 0 18px rgba(255,90,0,.5))}
+.foot p{font-family:var(--slate);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ash)}
+.foot p+p{margin-top:8px;opacity:.55}
+
+/* ---------- Motion preferences ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+
+@media (max-width:520px){
+  .stage{height:300px}
+  .reel{height:264px;width:min(210px,62vw)}
+  .slide{aspect-ratio:4/5}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== NAV ========== -->
+<nav class="nav" id="nav" aria-label="Sections">
+  <a href="#top">Home</a>
+  <a href="#about">About</a>
+  <a href="#projects">Projects</a>
+  <a href="#contact">Contact</a>
+  <a href="#portfolio">Portfolio</a>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero" id="top">
+  <div class="corona" aria-hidden="true"></div>
+  <div class="bloom" aria-hidden="true"></div>
+
+  <img class="mark" src="neon-sun-logo.png" alt="Neon Sun Productions">
+
+  <p class="hero-eyebrow">Production House &nbsp;·&nbsp; Founded by <b>Rageswari Mahanta</b></p>
+
+  <h1 class="tagline">Stories told <em>honestly</em>, felt fully.</h1>
+
+  <div class="hero-actions">
+    <a class="btn" href="#about"><span>Explore</span></a>
+    <a class="btn btn-solid" id="whatsapp" href="#" target="_blank" rel="noopener"><span>Enquire</span></a>
+  </div>
+
+  <p class="cue">Scroll<i></i></p>
+</header>
+
+<div class="strip" aria-hidden="true"></div>
+
+<!-- ========== ABOUT ========== -->
+<section class="pad" id="about">
+  <div class="wrap reveal">
+    <p class="eyebrow">Reel 01 <span>/</span> About</p>
+    <h2 class="h2">We make work that<br>doesn't look away.</h2>
+
+    <div class="about-body">
+      <p class="lede">Neon Sun Productions is an independent production house founded by Rageswari Mahanta — model, actress and entrepreneur.</p>
+      <p class="sub">We tell stories with honesty and transparency, following the full arc of human emotion rather than smoothing it out. Nothing is glossed over, and no shortcut is taken around the truth of a moment.</p>
+      <p class="sub">Our mission is to reach audiences across the world with storytelling that holds a mirror up to the society it comes from.</p>
+    </div>
+
+    <ul class="pillars">
+      <li>Honesty</li>
+      <li>Transparency</li>
+      <li>Human arcs</li>
+      <li>Global reach</li>
+    </ul>
+
+    <p class="signoff">Rageswari Mahanta<small>Founder · Neon Sun Productions</small></p>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true"></div>
+
+<!-- ========== PROJECTS ========== -->
+<section class="pad" id="projects">
+  <div class="wrap reveal">
+    <p class="eyebrow">Reel 02 <span>/</span> Projects</p>
+    <h2 class="h2">In production</h2>
+    <p class="sub">The first slate is being locked. Titles land here as they're announced.</p>
+  </div>
+
+  <!-- To add a project: copy one <article class="card slide"> block and edit it. -->
+  <div class="rail reveal" id="rail">
+    <article class="card slide">
+      <p class="no">Slate 01</p>
+      <h3>Project 1</h3>
+      <p>Details coming soon.</p>
+    </article>
+    <article class="card slide">
+      <p class="no">Slate 02</p>
+      <h3>Project 2</h3>
+      <p>Details coming soon.</p>
+    </article>
+  </div>
+
+  <div class="rail-ctrl reveal">
+    <button class="arrow" id="prev" aria-label="Previous project">&#10094;</button>
+    <div class="dots" id="dots"></div>
+    <button class="arrow" id="next" aria-label="Next project">&#10095;</button>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true"></div>
+
+<!-- ========== CONTACT ========== -->
+<section class="pad" id="contact">
+  <div class="wrap reveal">
+    <p class="eyebrow">Reel 03 <span>/</span> Contact</p>
+    <h2 class="h2">Start a conversation</h2>
+    <p class="sub">Casting, collaborations, commissions — reach out and we'll take it from there.</p>
+
+    <div class="contact-actions">
+      <a class="btn" id="emailBtn" href="#" aria-disabled="true"><span>Email</span></a>
+      <a class="btn" id="phoneBtn" href="#" aria-disabled="true"><span>Phone</span></a>
+    </div>
+
+    <p class="note" id="contactNote">Contact details are being added</p>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true"></div>
+
+<!-- ========== PORTFOLIO ========== -->
+<section class="pad" id="portfolio">
+  <div class="wrap reveal">
+    <p class="eyebrow">Reel 04 <span>/</span> Portfolio</p>
+    <h2 class="h2">Five kinds of light</h2>
+    <p class="sub">The reel turns on its own. Tap a card to stop on it.</p>
+  </div>
+
+  <div class="stage reveal">
+    <div class="reel" id="reel">
+      <!-- Links go on the href of each card later; see CONFIG.portfolio in the script. -->
+      <button class="face" data-i="0"><span class="ico">◐</span><span class="ttl">Modelling</span><span class="tag">Work coming soon</span></button>
+      <button class="face" data-i="1"><span class="ico">♫</span><span class="ttl">Music Videos</span><span class="tag">Work coming soon</span></button>
+      <button class="face" data-i="2"><span class="ico">▣</span><span class="ttl">Movies</span><span class="tag">Work coming soon</span></button>
+      <button class="face" data-i="3"><span class="ico">◧</span><span class="ttl">Short Films</span><span class="tag">Work coming soon</span></button>
+      <button class="face" data-i="4"><span class="ico">✦</span><span class="ttl">Direction</span><span class="tag">Work coming soon</span></button>
+    </div>
+  </div>
+
+  <div class="reel-ctrl reveal">
+    <button class="toggle" id="reelToggle"><span class="led"></span><span id="reelState">Rotating</span></button>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true"></div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="foot">
+  <img src="neon-sun-logo.png" alt="">
+  <p>Neon Sun Productions</p>
+  <p>&copy; <span id="yr"></span> · All rights reserved</p>
+</footer>
+
+<script>
+/* ============================================================
+   CONFIG — fill these in when the details are ready.
+   Leave a value as '' and its button stays in the placeholder state.
+   ============================================================ */
+const CONFIG = {
+  whatsapp: '',          // e.g. '919876543210'  (country code, no + or spaces)
+  email:    '',          // e.g. 'hello@neonsunproductions.com'
+  phone:    '',          // e.g. '+91 98765 43210'
+  portfolio: {           // paste links here to make the portfolio cards clickable
+    'Modelling':    '',
+    'Music Videos': '',
+    'Movies':       '',
+    'Short Films':  '',
+    'Direction':    ''
+  }
+};
+
+/* ---------- Enquire → WhatsApp ---------- */
+(function(){
+  const msg = encodeURIComponent('Hi! I would like to enquire about NeonSunProductions');
+  const num = CONFIG.whatsapp.replace(/\D/g,'');
+  document.getElementById('whatsapp').href =
+    num ? `https://wa.me/${num}?text=${msg}` : `https://wa.me/?text=${msg}`;
+})();
+
+/* ---------- Contact buttons ---------- */
+(function(){
+  const mail = document.getElementById('emailBtn');
+  const tel  = document.getElementById('phoneBtn');
+  const note = document.getElementById('contactNote');
+  let live = 0;
+
+  if(CONFIG.email){
+    mail.href = 'mailto:' + CONFIG.email;
+    mail.removeAttribute('aria-disabled');
+    live++;
+  }
+  if(CONFIG.phone){
+    tel.href = 'tel:' + CONFIG.phone.replace(/[^\d+]/g,'');
+    tel.removeAttribute('aria-disabled');
+    live++;
+  }
+  if(live === 2) note.remove();
+
+  [mail,tel].forEach(b=>b.addEventListener('click',e=>{
+    if(b.getAttribute('aria-disabled') === 'true') e.preventDefault();
+  }));
+})();
+
+/* ---------- Year ---------- */
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ---------- Nav: show after hero, highlight current ---------- */
+(function(){
+  const nav = document.getElementById('nav');
+  const links = [...nav.querySelectorAll('a')];
+  const secs = links.map(a=>document.querySelector(a.getAttribute('href')));
+
+  addEventListener('scroll',()=>{
+    nav.classList.toggle('show', scrollY > innerHeight * .7);
+    const mid = scrollY + innerHeight/2;
+    let cur = 0;
+    secs.forEach((s,i)=>{ if(s && s.offsetTop <= mid) cur = i; });
+    links.forEach((a,i)=>a.classList.toggle('active', i === cur));
+  },{passive:true});
+})();
+
+/* ---------- Scroll reveal ---------- */
+(function(){
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.18});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
+
+/* ---------- Projects carousel ---------- */
+(function(){
+  const rail = document.getElementById('rail');
+  const dots = document.getElementById('dots');
+  const slides = [...rail.children];
+  let i = 0;
+
+  slides.forEach((_,n)=>{
+    const d = document.createElement('button');
+    d.className = 'dot' + (n ? '' : ' on');
+    d.setAttribute('aria-label','Go to project ' + (n+1));
+    d.onclick = ()=>go(n);
+    dots.appendChild(d);
+  });
+
+  function go(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    const s = slides[i];
+    rail.scrollTo({ left: s.offsetLeft - (rail.clientWidth - s.clientWidth)/2, behavior:'smooth' });
+    paint();
+  }
+  function paint(){
+    [...dots.children].forEach((d,n)=>d.classList.toggle('on', n === i));
+  }
+
+  document.getElementById('prev').onclick = ()=>go(i-1);
+  document.getElementById('next').onclick = ()=>go(i+1);
+
+  let t;
+  rail.addEventListener('scroll',()=>{
+    clearTimeout(t);
+    t = setTimeout(()=>{
+      const c = rail.scrollLeft + rail.clientWidth/2;
+      let best = 0, dist = Infinity;
+      slides.forEach((s,n)=>{
+        const d = Math.abs(s.offsetLeft + s.clientWidth/2 - c);
+        if(d < dist){ dist = d; best = n; }
+      });
+      i = best; paint();
+    },90);
+  },{passive:true});
+})();
+
+/* ---------- Portfolio reel: rotates every 2s until clicked ---------- */
+(function(){
+  const reel   = document.getElementById('reel');
+  const faces  = [...reel.querySelectorAll('.face')];
+  const toggle = document.getElementById('reelToggle');
+  const state  = document.getElementById('reelState');
+  const n      = faces.length;
+  const step   = 360 / n;
+  let idx = 0, timer = null;
+
+  // wire up any portfolio links that have been filled in
+  faces.forEach(f=>{
+    const key = f.querySelector('.ttl').textContent.trim();
+    const url = CONFIG.portfolio[key];
+    if(url){
+      f.dataset.url = url;
+      f.querySelector('.tag').textContent = 'View work';
+    }
+  });
+
+  function radius(){
+    const w = reel.getBoundingClientRect().width;
+    return Math.round((w/2) / Math.tan(Math.PI/n) + 34);
+  }
+
+  function layout(){
+    const r = radius();
+    faces.forEach((f,k)=> f.style.transform = `rotateY(${k*step}deg) translateZ(${r}px)`);
+    render();
+  }
+
+  function render(){
+    reel.style.transform = `translateZ(-${radius()}px) rotateY(${-idx*step}deg)`;
+    faces.forEach((f,k)=>f.classList.toggle('front', k === ((idx % n) + n) % n));
+  }
+
+  function start(){
+    if(timer) return;
+    timer = setInterval(()=>{ idx++; render(); }, 2000);
+    toggle.classList.remove('paused');
+    state.textContent = 'Rotating';
+  }
+  function stop(){
+    clearInterval(timer); timer = null;
+    toggle.classList.add('paused');
+    state.textContent = 'Paused — tap to rotate';
+  }
+
+  faces.forEach((f,k)=>{
+    f.addEventListener('click',()=>{
+      const isFront = ((idx % n) + n) % n === k;
+      if(isFront && f.dataset.url){ window.open(f.dataset.url,'_blank','noopener'); return; }
+      stop();
+      idx += ((k - idx) % n + n) % n;   // turn to the nearest instance of this card
+      render();
+    });
+  });
+
+  toggle.addEventListener('click',()=> timer ? stop() : start());
+
+  addEventListener('resize', layout);
+  layout();
+
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ stop(); }
+  else{
+    // only spin while the section is on screen
+    new IntersectionObserver(es=>{
+      es.forEach(e=>{
+        if(e.isIntersecting){ if(!toggle.classList.contains('paused')) start(); }
+        else if(timer){ clearInterval(timer); timer = null; }
+      });
+    },{threshold:.25}).observe(document.getElementById('portfolio'));
+  }
+})();
+</script>
+</body>
+</html>
